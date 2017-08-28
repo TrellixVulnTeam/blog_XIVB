@@ -7,8 +7,10 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URL = 'sqlite:///' + os.path.join(basedir,'app.db')
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir,'db_repositpry')
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
+#SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir,'db_repositpry')
+
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 CSRF_ENABLED = True
 
