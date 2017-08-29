@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_openid import OpenID
 from config import basedir
 from flask import Flask
+from flask_bootstrap import Bootstrap
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -18,6 +19,7 @@ app.config.from_object('config')
 #app.config['SQLALCHEMY_DATABASE_URL'] = 'mysql+pymysql://root:123456@39.108.138.21:3306/test？charset=utf-8'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
+bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
 lm = LoginManager()
