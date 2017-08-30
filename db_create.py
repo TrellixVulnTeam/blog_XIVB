@@ -12,12 +12,34 @@ import datetime
 if __name__=='__main__':
 
     #db.drop_all()
-    # db.create_all()
+    #db.create_all()
 
-    u = models.User(nickname='liubin', email='liubin@qq.com')
+    admin_role = models.Role(name='Admin')
+    mod_role = models.Role(name='Moderator')
+    user_role = models.Role(name='User')
 
-    db.session.add(u)
+    user_john = models.User(username='john',role=admin_role)
+    user_susan = models.User(username='susan', role=user_role)
+    user_david = models.User(username='david', role=user_role)
+
+    db.session.add(admin_role)
+    db.session.add(mod_role)
+    db.session.add(user_role)
+
+    db.session.add(user_john)
+    db.session.add(user_susan)
+    db.session.add(user_david)
+
     db.session.commit()
+
+
+
+
+    #
+    # u = models.User(nickname='liubin', email='liubin@qq.com')
+    #
+    # db.session.add(u)
+    # db.session.commit()
 
    #  #查询表中数据
    #  users = models.User.query.all()
@@ -30,14 +52,14 @@ if __name__=='__main__':
    #
    #
    # #根据ID查询
-    u = models.User.query.get(1)
+   #  u = models.User.query.get(1)
+   # #
+   # #  print(u1)
    #
-   #  print(u1)
-
-    p = models.Post(body='my first post!',timestamp=datetime.datetime.utcnow(), author=u)
-
-    db.session.add(p)
-    db.session.commit()
+   #  p = models.Post(body='my first post!',timestamp=datetime.datetime.utcnow(), author=u)
+   #
+   #  db.session.add(p)
+   #  db.session.commit()
 
     #清除数据
     #

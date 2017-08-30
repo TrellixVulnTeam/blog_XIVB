@@ -13,8 +13,10 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 CSRF_ENABLED = True
-
+#flask-wtf需要设置一个秘钥，生成加密令牌。设置秘钥
 SECRET_KEY = 'you-will-never-guess'
+
+SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
 
 OPENID_PROVIDERS = [

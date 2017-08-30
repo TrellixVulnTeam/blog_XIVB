@@ -7,7 +7,9 @@ from flask import render_template,flash,redirect,session,url_for,request,g
 from flask_login import login_user, logout_user,current_user,login_required
 from app import app,lm,db,oid
 from .models import User
-from .forms import LoginForm
+from .forms import NameForm
+
+from datetime import datetime
 
 
 
@@ -79,13 +81,31 @@ from .forms import LoginForm
 #     logout_user()
 #     return redirect(url_for('index'))
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 @app.route('/index')
 
 def index():
-    user_agent = request.headers.get('User-Agent')
+    # user_agent = request.headers.get('User-Agent')
+    #
+    # return '<h1>You browser is %s </h1>' % user_agent
+    #name = None
+    form = NameForm()
 
-    return '<h1>You browser is %s </h1>' % user_agent
+    if form.validate_on_submit():
+
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('Looks like have changed your name!')
+
+
+        session['name'] = form.name.data
+
+        return redirect(url_for('index'))
+        # name = form.name.data
+        # form.name.data=''
+
+
+    return render_template('index.html',form=form, name = session.get('name'))
 
 @app.route('/user/<name>')
 def user(name):

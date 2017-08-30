@@ -5,12 +5,12 @@ __author__:liubin
 '''
 
 from flask_wtf import FlaskForm
-from wtforms import StringField,BooleanField
+from wtforms import StringField,SubmitField
 
 from wtforms.validators import DataRequired
 
 
-class LoginForm(FlaskForm):
+class NameForm(FlaskForm):
 
-    openid = StringField('openid',validators=[DataRequired()])
-    remember_me = BooleanField('remember_me',default=False)
+    name = StringField('What is your name?',validators=[DataRequired()])
+    submit = SubmitField('Submit')
