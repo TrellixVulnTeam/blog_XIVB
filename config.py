@@ -7,25 +7,58 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
-#SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir,'db_repositpry')
 
-SQLALCHEMY_TRACK_MODIFICATIONS = True
+class Config:
+    SECRET_KEY = 'hard to guess string'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    FLASK_MAIL_SUBJECT_PREFIX = '[Flasky]'
+    FLASK_MAIL_SENDER = 'liumeile0608@163.com'
+    FLASKY_ADMIN = '183773928@qq.com'
 
-CSRF_ENABLED = True
-#flask-wtf需要设置一个秘钥，生成加密令牌。设置秘钥
-SECRET_KEY = 'you-will-never-guess'
+    @staticmethod
+    def init_app(app):
+        pass
 
-SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+class DevelopmentConfig(Config):
+
+    DEBUG = True
+    MAIL_SERVER = 'smtp.163.com'
+    MAIL_PORT = 25
+    MAIL_USER_TLS = True
+    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')#liumeile0608@163.com
+    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')#891212kb
+    MAIL_USERNAME = 'liumeile0608@163.com'
+    MAIL_PASSWORD = '891212kb'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
 
 
-OPENID_PROVIDERS = [
+config = {
 
-    {'name':'Google','url':'https://www.google.com/accounts/o8/id'},
-    {'name':'Yahoo','url':'https://www.yahoo.com'},
-    {'name':'AOL','url':'https://www.google.com/accounts/o8/id'},
-    {'name':'Flockr','url':'https://www.Flockr.com/<username>'},
-    {'name':'MyOpenID','url':'https://www.xxx.com/'}
+    'development':DevelopmentConfig,
+    'testig':TestingConfig,
+    'production':ProductionConfig,
+    'default':DevelopmentConfig
+}
 
-]
+
+#CSRF_ENABLED = True
+
+
+
+
+
+
+
+
+
+
+
 
