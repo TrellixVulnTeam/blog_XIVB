@@ -5,8 +5,7 @@ __author__:liubin
 '''
 from threading import Thread
 from flask_mail import Message
-
-from . import main
+from flask import current_app, render_template
 from .import  mail
 
 from flask import render_template
@@ -26,6 +25,7 @@ def send_email(subject, sender, recipients, test_body):
     mail.send(msg)
 
 def send_email1(to, subject, template, **kwargs):
+    app = current_app._get_current_object()
 
     msg = Message(app.config['FLASK_MAIL_SUBJECT_PREFIX'] + subject,
                   sender=app.config['FLASK_MAIL_SENDER'], recipients=[to])

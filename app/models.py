@@ -5,8 +5,10 @@ __author__:liubin
 '''
 
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db,login_manager
+from flask import current_app
 
 
 
@@ -37,6 +39,8 @@ class User(UserMixin,db.Model):
 
     password_hash = db.Column(db.String(128))
 
+    confirmed = db.Column(db.Boolean, default=False)
+
     @property
     def password(self):
 
@@ -50,6 +54,22 @@ class User(UserMixin,db.Model):
     def verify_password(self, password):
 
         return check_password_hash(self.password_hash,password)
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'],expiration)
+        return  s.dumps({'confirm':self.id})
+
+    def confirm(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
     # def is_authenticated(self):
     #     return True
     #
@@ -70,3 +90,17 @@ class User(UserMixin,db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+    @property
+    def confirmed(self):
+        return False
+
+login_manager.anonymous_user = AnonymousUser

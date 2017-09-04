@@ -14,7 +14,7 @@ from .. import db
 from datetime import datetime
 
 
-@main.route('/index')
+@main.route('/')
 
 def index():
 
