@@ -42,4 +42,56 @@ class RegistrationForm(FlaskForm):
 
             raise ValidationError('Username already in use.')
 
+#修改密码
+class ChangePasswordForm(FlaskForm):
+
+    old_password = PasswordField('Old passwpd', validators=[DataRequired()])
+    password = PasswordField('New password', validators=[DataRequired(), EqualTo('password2',message='Passwords must match')])
+    password2 = PasswordField('Confirm new password', validators=[DataRequired()])
+    submit = SubmitField('Update Password')
+
+#重置密码表单
+class PasswordResetRequestForm(FlaskForm):
+
+    email = StringField('Email',validators=[DataRequired(),Length(1,64),Email()])
+    submit = SubmitField('Reset Password')
+
+
+
+class PasswordResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(),Length(1,64),Email()])
+
+    password = PasswordField('new Password', validators=[DataRequired(),EqualTo('password2',message='Passwords must match')])
+
+    password2 = PasswordField('Confirm password',validators=[DataRequired()])
+    submit = SubmitField('Reset Password')
+
+
+    def validate_email(self,field):
+        if User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError('Unknown email address.')
+
+
+#修改邮箱表单
+class ChangeEmailForm(FlaskForm):
+
+    email = StringField('New Email',validators=[DataRequired(),Length(1,64),Email()])
+
+    password = PasswordField('Password',validators=[DataRequired()])
+    submit = SubmitField('Update Email Address')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')
+
+
+
+
+
+
+
+
+
+
+
 
