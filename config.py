@@ -15,6 +15,7 @@ class Config:
     FLASK_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASK_MAIL_SENDER = 'liumeile0608@163.com'
     FLASKY_ADMIN = '183773928@qq.com'
+    FLASKY_POSTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):
@@ -34,7 +35,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/tests'
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@39.108.138.21:3306/test'
@@ -43,13 +44,15 @@ class ProductionConfig(Config):
 config = {
 
     'development':DevelopmentConfig,
-    'testig':TestingConfig,
+    'testing':TestingConfig,
     'production':ProductionConfig,
     'default':DevelopmentConfig
 }
 
 
 #CSRF_ENABLED = True
+
+#3818f0a1ac35282219c6f6a55af42f21
 
 
 
